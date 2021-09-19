@@ -29,11 +29,11 @@ This layer has an MIT license (see LICENSE) and it fetches code from FreeRTOS th
 
 ## FreeRTOS build setup
 
-1.- Clone the required repositories (Use -b dunfell if you want a stable release)
+1.- Clone the required repositories
 ```bash
-$ git clone https://git.yoctoproject.org/git/poky
+$ git clone https://git.yoctoproject.org/git/poky -b dunfell
 $ cd poky
-$ git clone https://github.com/aehs29/meta-freertos.git
+$ git clone https://github.com/Spitzbube/meta-freertos.git -b dunfell
 ```
 2.- Add meta-freertos to your bblayers.conf
 ```bash
@@ -42,60 +42,12 @@ $ bitbake-layers add-layer ../meta-freertos
 ```
 3.- Add the required variables to your local.conf
 ```bash
-$ echo "MACHINE = \"qemuarmv5\"" >> ./conf/local.conf
+$ echo "MACHINE = \"stm32-p405\"" >> ./conf/local.conf
 $ echo "DISTRO = \"freertos\"" >> ./conf/local.conf
 ```
 
 ## Build a FreeRTOS demo as a standalone application:
 4.- Build a sample FreeRTOS standalone application:
 ```bash
-$ bitbake freertos-demo
-```
-5.- Run the application on QEMU:
-```bash
-$ runqemu nographic
-```
-
-After running runqemu you should be able to see the output of the application on QEMU and interact with it.
-
-Sample output:
-```bash
-###### - FreeRTOS sample application -######
-
-A text may be entered using a keyboard.
-It will be displayed when 'Enter' is pressed.
-
-Periodic task 10 secs
-Waiting For Notification - Blocked...
-Task1
-Task1
-You entered: "HelloFreeRTOS"
-Unblocked
-Notification Received
-Waiting For Notification - Blocked...
-```
-
-
-## Build Linux along with FreeRTOS (Linux on qemux86-64 and FreeRTOS on qemuarmv5):
-(First 3 steps still apply)
-
-4.- Enable multiconfig builds on your local.conf
-```bash
-$ echo "BBMULTICONFIG = \"dummy-x86-64\"" >> ./conf/local.conf
-```
-5.- Create a multiconfig dependency so freertos gets built automatically when building Linux
-```bash
-$ echo "do_image[mcdepends] = \"multiconfig:dummy-x86-64::freertos-demo-local:do_image\"" >> ./conf/local.conf
-```
-6.- Build Linux image and get a FreeRTOS demo for free!
-```bash
-$ bitbake mc:dummy-x86-64:core-image-minimal
-```
-7.- Run the FreeRTOS application on QEMU:
-```bash
-$ runqemu nographic
-```
-8.- Run the Linux image on QEMU (Assuming you used the default settings):
-```bash
-$ runqemu nographic tmp-qemux86-64-glibc/deploy/images/qemux86-64/core-image-minimal-qemux86-64.qemuboot.conf
+$ bitbake freertos-stm32-p405
 ```
