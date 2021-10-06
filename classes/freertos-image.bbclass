@@ -20,7 +20,7 @@ LICENSE = "MIT"
 
 # FreeRTOS License, careful here, the gitsm fetcher does not work properly with license checking
 # double check this manually after an upgrade
-#LIC_FILES_CHKSUM = "file://../freertos/LICENSE;md5=7ae2be7fb1637141840314b51970a9f7"
+LIC_FILES_CHKSUM = "file://../freertos/LICENSE;md5=7ae2be7fb1637141840314b51970a9f7"
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = " \

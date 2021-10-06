@@ -5,11 +5,12 @@ SUMMARY = "FreeRTOS application example based on https://github.com/jkovacic/"
 # instead of cloning from git
 
 #inherit freertos-armv5
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8f5b865d5179a4a0d9037aebbd00fc2e"
 S="${WORKDIR}"
 EXTRA_OEMAKE_append = " PORT=ARM_CM4F"
 
 inherit freertos-image
+
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8f5b865d5179a4a0d9037aebbd00fc2e"
 
 SRC_URI += " \
     file://LICENSE.txt \
