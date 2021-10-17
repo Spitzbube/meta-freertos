@@ -14,11 +14,7 @@ void vLED1Task( void *pvParameters )
 
 	for( ;; )
 	{
-#if 0
-		for (int i = 0; i < 1000000; i++);
-#else
-		vTaskDelay( ( TickType_t ) 2000 / portTICK_PERIOD_MS );
-#endif
+		vTaskDelay(( TickType_t ) 1000 / portTICK_PERIOD_MS );
 
 		if (off)
 		{
@@ -33,7 +29,6 @@ void vLED1Task( void *pvParameters )
 	}
 }
 
-
 void vLED2Task( void *pvParameters )
 {
 	int off = 1;
@@ -42,11 +37,7 @@ void vLED2Task( void *pvParameters )
 
 	for( ;; )
 	{
-#if 0
-		for (int i = 0; i < 1000000; i++);
-#else
-		vTaskDelay( ( TickType_t ) 4000 / portTICK_PERIOD_MS );
-#endif
+		vTaskDelay(( TickType_t ) 2000 / portTICK_PERIOD_MS );
 
 		if (off)
 		{
@@ -75,29 +66,6 @@ int main()
 	vTaskStartScheduler();
 
 	while (1);
-
-	return 0;
-}
-
-
-int swiDispatchC (unsigned long r0 __attribute__ ((unused)), unsigned long r1 __attribute__ ((unused)), unsigned long r2 __attribute__ ((unused)), unsigned long swi __attribute__ ((unused)))
-{
-#if 0
-	static int off = 1;
-
-	if (off)
-	{
-		GPIO0_FIOSET = GPIO_IO_P11;
-		off = 0;
-	}
-	else
-	{
-		GPIO0_FIOCLR = GPIO_IO_P11;
-		off = 1;
-	}
-
-#endif
-//	vPortYieldProcessor();
 
 	return 0;
 }

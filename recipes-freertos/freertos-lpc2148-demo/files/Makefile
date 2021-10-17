@@ -12,7 +12,8 @@ $(info OBJS="$(OBJS)")
 $(info FREERTOS_SRC="$(FREERTOS_SRC)")
 $(info FREERTOS_PORT_SRC="$(FREERTOS_PORT_SRC)")
 
-OBJS = startup.o swiDispatch.o main.o cpu.o led.o $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
+OBJS = startup.o 
+OBJS += main.o cpu.o $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
 
 all: image.bin
 
@@ -26,16 +27,10 @@ image.elf: $(OBJS) lpc2148-rom.ld
 startup.o: startup.s
 	$(AS) $< -o $@
 
-swiDispatch.o: swiDispatch.s
-	$(AS) $< -o $@
-
 main.o: main.c
 	$(CC) $(CFLAGS) -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
 
 cpu.o: cpu.c
-	$(CC) -c $< -o $@
-
-led.o: led.c
 	$(CC) -c $< -o $@
 
 list.o: $(FREERTOS_SRC)list.c

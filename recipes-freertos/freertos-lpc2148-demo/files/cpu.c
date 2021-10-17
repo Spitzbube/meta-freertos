@@ -76,6 +76,9 @@ void cpuSetupHardware (void)
   //
   SCB_PCONP = SCB_PCONP_ALLOFF;
 
+  //Power for Timer0 (ticks for FreeRTOS)
+  SCB_PCONP |= SCB_PCONP_PCTIM0;
+
   //
   //  Make sure all interrupts disabled
   //

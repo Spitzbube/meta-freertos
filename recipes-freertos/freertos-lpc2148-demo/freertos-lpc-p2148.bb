@@ -17,10 +17,8 @@ SRC_URI += " \
     file://Makefile \
     file://lpc2148-rom.ld \
     file://startup.s \
-    file://swiDispatch.s \
     file://main.c \
     file://cpu.c \
-    file://led.c \
     file://lpc214x.h \
     file://sysdefs.h \
     file://FreeRTOSConfig.h  \
