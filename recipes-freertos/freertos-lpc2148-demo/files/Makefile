@@ -37,7 +37,7 @@ list.o: $(FREERTOS_SRC)list.c
 	$(CC) $(CFLAGS) -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
 
 tasks.o: $(FREERTOS_SRC)tasks.c
-	$(CC) $(CFLAGS) -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
+	$(CC) $(CFLAGS) -marm -DTHUMB_INTERWORK -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
 
 queue.o : $(FREERTOS_SRC)queue.c
 	$(CC) $(CFLAGS) -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
@@ -52,7 +52,7 @@ port.o: $(FREERTOS_PORT_SRC)port.c
 	$(CC) $(CFLAGS) -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
 
 portISR.o: $(FREERTOS_PORT_SRC)portISR.c
-	$(CC) $(CFLAGS) -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
+	$(CC) $(CFLAGS) -marm -DTHUMB_INTERWORK -I$(FREERTOS_SRC)/../../.. -I$(FREERTOS_PORT_SRC) -c $< -o $@
 
 clean:
 	rm -f *.o 
