@@ -6,6 +6,11 @@
 void cpuSetupHardware (void);
 
 
+void syscallsInit (void)
+{
+}
+
+
 void vLED1Task( void *pvParameters )
 {
 	int off = 1;
@@ -56,6 +61,9 @@ void vLED2Task( void *pvParameters )
 int main()
 {
 	cpuSetupHardware();
+
+	//Power for Timer0 (ticks for FreeRTOS)
+	SCB_PCONP |= SCB_PCONP_PCTIM0;
 
 	GPIO0_FIODIR |= (GPIO_IO_P10 | GPIO_IO_P11);
 	GPIO0_FIOSET  = (GPIO_IO_P10 | GPIO_IO_P11);

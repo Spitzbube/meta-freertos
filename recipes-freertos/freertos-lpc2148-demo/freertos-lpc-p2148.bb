@@ -4,24 +4,18 @@ SUMMARY = "FreeRTOS application example based on https://github.com/jkovacic/"
 # the only change is that this example is built locally
 # instead of cloning from git
 
-#inherit freertos-armv5
-S="${WORKDIR}"
-EXTRA_OEMAKE_append = " PORT=ARM7_LPC2000"
+inherit freertos-lpc2148
 
-inherit freertos-image
+S="${WORKDIR}"
 
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8f5b865d5179a4a0d9037aebbd00fc2e"
 
 SRC_URI += " \
     file://LICENSE.txt \
     file://Makefile \
-    file://lpc2148-rom.ld \
-    file://startup.s \
     file://main.c \
-    file://cpu.c \
-    file://lpc214x.h \
-    file://sysdefs.h \
-    file://FreeRTOSConfig.h  \
+    file://freertos-config.patch  \
+    file://cpu-setup-hardware.patch  \
 "
 
 EXTRA_OEMAKE += "'STAGING_LIBDIR=${STAGING_LIBDIR}'"

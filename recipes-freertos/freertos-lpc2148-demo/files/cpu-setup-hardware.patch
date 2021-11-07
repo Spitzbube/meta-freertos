@@ -1,0 +1,21 @@
+diff --git a/lpc2148_demo/cpu/cpu.c b/lpc2148_demo/cpu/cpu.c
+index 7fcbb69..df29fe4 100644
+--- a/lpc2148_demo/cpu/cpu.c
++++ b/lpc2148_demo/cpu/cpu.c
+@@ -64,14 +64,14 @@ void cpuSetupHardware (void)
+   //
+   PCB_PINSEL0 = PCB_PINSEL0_ALL_GPIO;
+   PCB_PINSEL1 = PCB_PINSEL1_ALL_GPIO;
+-  PCB_PINSEL2 = (PCB_PINSEL2_P13626_GPIO | PCB_PINSEL2_P12516_GPIO);
++//  PCB_PINSEL2 = (PCB_PINSEL2_P13626_DEBUG | PCB_PINSEL2_P12516_GPIO);
+ 
+   //
+   //  Set all GPIO to input (safer than an output, which may be driving a high
+   //  into a closed switch such as BSL).  
+   //
+   GPIO0_FIODIR = ~GPIO_IO_ALL;
+-  GPIO1_FIODIR = ~GPIO_IO_JTAG;
++  GPIO1_FIODIR = ~GPIO_IO_ALL;
+ 
+   //
+   //  Setup the PLL to multiply the 12Mhz XTAL input by 4, divide by 1
