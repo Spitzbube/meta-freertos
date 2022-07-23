@@ -1,0 +1,41 @@
+diff --git a/lpc2148_demo/cpu/cpu.c b/lpc2148_demo/cpu/cpu.c
+index 7fcbb69..a8d5aa5 100644
+--- a/lpc2148_demo/cpu/cpu.c
++++ b/lpc2148_demo/cpu/cpu.c
+@@ -64,19 +64,20 @@ void cpuSetupHardware (void)
+   //
+   PCB_PINSEL0 = PCB_PINSEL0_ALL_GPIO;
+   PCB_PINSEL1 = PCB_PINSEL1_ALL_GPIO;
+-  PCB_PINSEL2 = (PCB_PINSEL2_P13626_GPIO | PCB_PINSEL2_P12516_GPIO);
++//  PCB_PINSEL2 = (PCB_PINSEL2_P13626_DEBUG | PCB_PINSEL2_P12516_GPIO);
+ 
+   //
+   //  Set all GPIO to input (safer than an output, which may be driving a high
+   //  into a closed switch such as BSL).  
+   //
+   GPIO0_FIODIR = ~GPIO_IO_ALL;
+-  GPIO1_FIODIR = ~GPIO_IO_JTAG;
++  GPIO1_FIODIR = ~GPIO_IO_ALL;
+ 
+   //
+-  //  Setup the PLL to multiply the 12Mhz XTAL input by 4, divide by 1
++  //  Setup the PLL to multiply the 11.0592MHz XTAL input by 4, divide by 2
++  //  CCLK = 44.2368 MHz / Fcco = 176,9472
+   //
+-  SCB_PLLCFG = (SCB_PLLCFG_MUL4 | SCB_PLLCFG_DIV1);
++  SCB_PLLCFG = (SCB_PLLCFG_MUL4 | SCB_PLLCFG_DIV2);
+ 
+   //
+   //  Activate the PLL by turning it on then feeding the correct sequence of bytes
+@@ -107,9 +108,9 @@ void cpuSetupHardware (void)
+   MAM_CR = MAM_CR_FULL;
+ 
+   //
+-  //  Setup the peripheral bus to be the same as the PLL output (48Mhz)
++  //  Setting peripheral Clock (pclk) to System Clock (cclk) / 4
+   //
+-  SCB_VPBDIV = SCB_VPBDIV_100;
++  SCB_VPBDIV = SCB_VPBDIV_25;
+ 
+   //
+   //  Disable power to all modules
