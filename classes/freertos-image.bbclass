@@ -24,15 +24,17 @@ LIC_FILES_CHKSUM = "file://../freertos/LICENSE;md5=7ae2be7fb1637141840314b51970a
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = " \
-    gitsm://github.com/FreeRTOS/FreeRTOS-LTS.git;name=freertos;destsuffix=freertos;branch=${SRCBRANCH} \
+    git://github.com/FreeRTOS/FreeRTOS-Kernel.git;name=freertos;destsuffix=freertos;branch=main \
 "
 
 SRCREV_FORMAT ?= "freertos_bsp"
-SRCREV_freertos ?= "1bb18c8dfbf8f0445e873b20cec7d6091771f9e9"
+SRCREV_freertos ?= "9c048e0c71ee43630394981a86f5265bc57131e4"
 
 PV = "${FREERTOS_VERSION}+git${SRCPV}"
 
-FREERTOS_KERNEL_SRC = "${WORKDIR}/freertos/FreeRTOS/FreeRTOS-Kernel/"
+FREERTOS_KERNEL_SRC = "${WORKDIR}/freertos/"
+#FREERTOS_PORT_SRC = "${FREERTOS_KERNEL_SRC}portable/${FREERTOS_PORT}"
+FREERTOS_MEMMANG_SRC = "${FREERTOS_KERNEL_SRC}portable/MemMang/"
 
 inherit rootfs-postcommands
 IMGDEPLOYDIR ?= "${WORKDIR}/deploy-${PN}-image-complete"
@@ -46,10 +48,13 @@ CFLAGS_remove = "-O2"
 
 # Extra CFLAGS required for FreeRTOS include files
 CFLAGS_append = " -I${FREERTOS_KERNEL_SRC} -I${FREERTOS_KERNEL_SRC}/include/"
+#CFLAGS_append = " -I${FREERTOS_PORT_SRC}"
 
 # We need to define the FreeRTOS source code location, the port we'll be using
 # should be defined on the specific bsp class
-EXTRA_OEMAKE = " FREERTOS_SRC=${FREERTOS_KERNEL_SRC} 'CFLAGS=${CFLAGS}'"
+#EXTRA_OEMAKE_append = " FREERTOS_PORT_SRC=${FREERTOS_PORT_SRC}"
+EXTRA_OEMAKE_append = " FREERTOS_MEMMANG_SRC=${FREERTOS_MEMMANG_SRC}"
+EXTRA_OEMAKE_append = " FREERTOS_SRC=${FREERTOS_KERNEL_SRC} 'CFLAGS=${CFLAGS}'"
 
 do_compile(){
   oe_runmake ${EXTRA_OEMAKE}
