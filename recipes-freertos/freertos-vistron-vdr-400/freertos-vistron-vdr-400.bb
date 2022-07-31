@@ -14,7 +14,7 @@ SRC_URI_append = " \
     git://github.com/Spitzbube/vistron_vdr_400;name=vistron_vdr_400;destsuffix=vistron_vdr_400;branch=master \
     file://LICENSE.txt \
     file://Makefile \
-    file://main.c \
+    file://main.c.patch \
     file://system_stm32f1xx.c \
     file://FreeRTOSConfig.h \
     file://helper.c \

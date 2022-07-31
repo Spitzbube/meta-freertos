@@ -18,8 +18,8 @@ startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
 system_stm32f1xx.o: system_stm32f1xx.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
-main.o: main.c
-	$(CC) $< $(CFLAGS) -c -o $@
+main.o: $(VISTRON_VDR_400)/Core/Src/main.c
+	$(CC) $< $(CFLAGS) -D FREERTOS -c -o $@
 
 helper.o: helper.c
 	$(CC) $< $(CFLAGS) -c -o $@
