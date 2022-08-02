@@ -17,6 +17,7 @@ SRC_URI_append = " \
     file://main.c.patch \
     file://SystemCoreClock.patch \
     file://IRQHandler.patch \
+    file://freertos_test.c \
     file://FreeRTOSConfig.h \
     file://helper.c \
 "
@@ -47,6 +48,7 @@ EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS=startup_stm32f103vetx.o"
 EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=system_stm32f1xx.o"
 EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=stm32f1xx_hal_msp.o"
 EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=stm32f1xx_it.o"
+EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=main.o"
 
 CFLAGS_append = " -I$(VISTRON_VDR_400)/Core/Inc"
 CFLAGS_append = " -I$(VISTRON_VDR_400)/."

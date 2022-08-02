@@ -1,5 +1,5 @@
 diff --git a/Core/Src/stm32f1xx_it.c b/Core/Src/stm32f1xx_it.c
-index 119f265..8d42a01 100644
+index a1d2c70..97a65e6 100644
 --- a/vistron_vdr_400/Core/Src/stm32f1xx_it.c
 +++ b/vistron_vdr_400/Core/Src/stm32f1xx_it.c
 @@ -140,6 +140,7 @@ void UsageFault_Handler(void)
@@ -52,3 +52,13 @@ index 119f265..8d42a01 100644
  /**
    * @brief This function handles System tick timer.
    */
+@@ -258,8 +269,8 @@ void TIM5_IRQHandler(void)
+   Data_20000b90.Data_0++;
+ 
+   touch_poll();
+-  button_gpio_check();
+ #endif
++  button_gpio_check();
+ 
+   /* USER CODE END TIM5_IRQn 0 */
+   HAL_TIM_IRQHandler(&htim5);

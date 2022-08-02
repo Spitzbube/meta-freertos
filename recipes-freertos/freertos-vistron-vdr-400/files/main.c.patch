@@ -1,55 +1,143 @@
 diff --git a/Core/Src/main.c b/Core/Src/main.c
-index 0c771ff..346accc 100644
+index 0c771ff..a7072af 100644
 --- a/vistron_vdr_400/Core/Src/main.c
 +++ b/vistron_vdr_400/Core/Src/main.c
-@@ -224,9 +224,24 @@ int main(void)
+@@ -23,18 +23,9 @@
+ /* Private includes ----------------------------------------------------------*/
+ /* USER CODE BEGIN Includes */
+ 
+-#ifdef FREE_RTOS
+-
+-#include "FreeRTOS.h"
+-#include "task.h"
+-
+-#else //FREE_RTOS
+-
+ #include "../../User/func_8001ae8.h"
+ #include <stdlib.h>
+ 
+-#endif //FREE_RTOS
+-
+ /* USER CODE END Includes */
+ 
+ /* Private typedef -----------------------------------------------------------*/
+@@ -89,46 +80,7 @@ extern int sub_800a9a8(void);
+ /* Private user code ---------------------------------------------------------*/
+ /* USER CODE BEGIN 0 */
+ 
+-#ifdef FREE_RTOS
+-
+-#define LED_TASK_STACK_SIZE 256
+-void LED1_Task(void* p)
+-{
+-    // PE5 = Output for LED D2
+-    GPIO_InitTypeDef GPIO_InitStruct = {0};
+-    GPIO_InitStruct.Pin = GPIO_PIN_5;
+-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_5, GPIO_PIN_RESET);
+-
+-	while (1)
+-	{
+-	    vTaskDelay(pdMS_TO_TICKS(250));
+-		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_5);
+-	}
+-}
+-
+-void LED2_Task(void* p)
+-{
+-    // PE6 = Output for LED D3
+-    GPIO_InitTypeDef GPIO_InitStruct = {0};
+-    GPIO_InitStruct.Pin = GPIO_PIN_6;
+-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
+-
+-	while (1)
+-	{
+-	    vTaskDelay(pdMS_TO_TICKS(500));
+-		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
+-	}
+-}
+-
+-#else //FREE_RTOS
++#ifndef FREE_RTOS
+ 
+ /* 800c7e0 - todo */
+ void sub_800c7e0(uint16_t a)
+@@ -224,41 +176,35 @@ int main(void)
  
    /* USER CODE BEGIN SysInit */
  
 -#ifdef FREE_RTOS
-+  /* USER CODE END SysInit */
- 
+-
 -  __HAL_RCC_GPIOE_CLK_ENABLE();
-+  /* Initialize all configured peripherals */
-+  MX_GPIO_Init();
-+#ifndef FREE_RTOS
-+  MX_RTC_Init();
-+  MX_I2C2_Init();
-+  MX_SPI2_Init();
-+#endif
-+  MX_TIM5_Init();
-+#ifndef FREE_RTOS
-+  MX_TIM6_Init();
-+  MX_USART2_UART_Init();
-+  MX_FSMC_Init();
-+  /* USER CODE BEGIN 2 */
-+#endif
-+
-+#ifdef FREE_RTOS
- 
-   TaskHandle_t led1Task;
-   (void) xTaskCreate( LED1_Task, "LED1", LED_TASK_STACK_SIZE,
-@@ -240,19 +255,6 @@ int main(void)
- 
- #else //FREE_RTOS
- 
--  /* USER CODE END SysInit */
 -
--  /* Initialize all configured peripherals */
--  MX_GPIO_Init();
--  MX_RTC_Init();
--  MX_I2C2_Init();
--  MX_SPI2_Init();
--  MX_TIM5_Init();
--  MX_TIM6_Init();
--  MX_USART2_UART_Init();
--  MX_FSMC_Init();
--  /* USER CODE BEGIN 2 */
+-  TaskHandle_t led1Task;
+-  (void) xTaskCreate( LED1_Task, "LED1", LED_TASK_STACK_SIZE,
+-  		NULL/*pvParameters*/, 1/*uxPriority*/, &led1Task);
 -
+-  TaskHandle_t led2Task;
+-  (void) xTaskCreate( LED2_Task, "LED2", LED_TASK_STACK_SIZE,
+-  		NULL/*pvParameters*/, 1/*uxPriority*/, &led2Task);
+-
+-  vTaskStartScheduler();  // should never return
+-
+-#else //FREE_RTOS
+-
+   /* USER CODE END SysInit */
+ 
+   /* Initialize all configured peripherals */
+   MX_GPIO_Init();
++#ifndef FREE_RTOS
+   MX_RTC_Init();
+   MX_I2C2_Init();
+   MX_SPI2_Init();
++#endif
+   MX_TIM5_Init();
++#ifndef FREE_RTOS
+   MX_TIM6_Init();
+   MX_USART2_UART_Init();
+   MX_FSMC_Init();
+   /* USER CODE BEGIN 2 */
++#endif
+ 
++#ifndef FREE_RTOS
++  
    ili9341_init();
  
    touch_init();
-@@ -909,6 +911,8 @@ static void MX_SPI2_Init(void)
++  
++#endif
+ 
+   HAL_TIM_Base_Start_IT(&htim5);
+ 
++#ifndef FREE_RTOS
++  
+   sub_800b270();
+ 
+   if (0 != sub_800a9a8())
+@@ -280,6 +226,15 @@ int main(void)
+   }
+   //loc_800c9b4
+   __HAL_RTC_ALARM_ENABLE_IT(&hrtc, RTC_IT_SEC);
++  
++#endif
++  
++#ifdef FREE_RTOS
++
++  void freertos_main(void);
++  freertos_main();
++
++#else //FREE_RTOS
+ 
+   /* USER CODE END 2 */
+ 
+@@ -909,6 +864,8 @@ static void MX_SPI2_Init(void)
  
  }
  
@@ -58,7 +146,7 @@ index 0c771ff..346accc 100644
  /**
    * @brief TIM5 Initialization Function
    * @param None
-@@ -956,6 +960,8 @@ static void MX_TIM5_Init(void)
+@@ -956,6 +913,8 @@ static void MX_TIM5_Init(void)
  
  }
  
@@ -67,7 +155,7 @@ index 0c771ff..346accc 100644
  /**
    * @brief TIM6 Initialization Function
    * @param None
-@@ -1031,6 +1037,8 @@ static void MX_USART2_UART_Init(void)
+@@ -1031,6 +990,8 @@ static void MX_USART2_UART_Init(void)
  
  }
  
@@ -76,7 +164,7 @@ index 0c771ff..346accc 100644
  /**
    * @brief GPIO Initialization Function
    * @param None
-@@ -1148,6 +1156,8 @@ static void MX_GPIO_Init(void)
+@@ -1148,6 +1109,8 @@ static void MX_GPIO_Init(void)
  
  }
  

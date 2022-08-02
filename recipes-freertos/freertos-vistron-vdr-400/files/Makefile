@@ -1,5 +1,5 @@
 
-OBJS += main.o helper.o
+OBJS += freertos_test.o helper.o
 OBJS += $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
 OBJS += $(STM32F1xx_HAL_OBJS)
 OBJS += $(VISTRON_VDR_400_OBJS)
@@ -27,6 +27,9 @@ stm32f1xx_it.o: $(VISTRON_VDR_400)/Core/Src/stm32f1xx_it.c
 
 main.o: $(VISTRON_VDR_400)/Core/Src/main.c
 	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
+freertos_test.o: freertos_test.c
+	$(CC) $< $(CFLAGS) -c -o $@
 
 helper.o: helper.c
 	$(CC) $< $(CFLAGS) -c -o $@
