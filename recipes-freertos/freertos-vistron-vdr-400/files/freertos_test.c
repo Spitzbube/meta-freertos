@@ -37,9 +37,8 @@ void LED2_Task(void* p)
 	while (1)
 	{
 	    vTaskDelay(pdMS_TO_TICKS(500));
-#if 0
-		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
-#endif
+//	   sub_800c7e0(1000);
+//		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
 	}
 }
 
@@ -76,5 +75,4 @@ void button_gpio_check(void)
    {
    }
 }
-
 
