@@ -15,7 +15,7 @@ image.elf: $(OBJS)
 startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
 	$(AS) $< -o $@
 
-system_stm32f1xx.o: system_stm32f1xx.c
+system_stm32f1xx.o: $(VISTRON_VDR_400)/Core/Src/system_stm32f1xx.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
 main.o: $(VISTRON_VDR_400)/Core/Src/main.c

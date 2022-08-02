@@ -24,7 +24,7 @@ CFLAGS_append = " -I$(STM32CUBEF1)/Drivers/CMSIS/Device/ST/STM32F1xx/Include"
 CFLAGS_append = " -I$(STM32CUBEF1)/Drivers/CMSIS/Include"
 CFLAGS_append = " -I$(STM32CUBEF1)/Drivers/STM32F1xx_HAL_Driver/Inc"
 CFLAGS_append = " -I${FREERTOS_PORT_SRC}"
-CFLAGS_append = " -DSTM32F103xE"
+CFLAGS_append = " -DUSE_HAL_DRIVER -DSTM32F103xE"
 
 LDFLAGS_remove = "-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed"
 LDFLAGS_append = " -L ${STAGING_LIBDIR} -L ${STAGING_LIBDIR}/arm-oe-eabi/9.3.0/"

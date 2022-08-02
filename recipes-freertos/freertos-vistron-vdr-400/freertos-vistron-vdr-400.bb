@@ -15,7 +15,7 @@ SRC_URI_append = " \
     file://LICENSE.txt \
     file://Makefile \
     file://main.c.patch \
-    file://system_stm32f1xx.c \
+    file://SystemCoreClock.patch \
     file://FreeRTOSConfig.h \
     file://helper.c \
 "
