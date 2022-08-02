@@ -16,10 +16,11 @@ SRC_URI_append = " \
     file://Makefile \
     file://main.c.patch \
     file://SystemCoreClock.patch \
+    file://IRQHandler.patch \
     file://FreeRTOSConfig.h \
     file://helper.c \
 "
-SRCREV_vistron_vdr_400 ?= "0fda837c002f04f04958228321bcb02801af5fcc"
+SRCREV_vistron_vdr_400 ?= "d4653ffcb3252c0a3a975e86a43b5c49d61b48db"
 
 VISTRON_VDR_400 = "${WORKDIR}/vistron_vdr_400"
 
@@ -35,6 +36,17 @@ EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_cortex.o"
 EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_rcc.o"
 EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_rcc_ex.o"
 EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_gpio.o"
+EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_pwr.o"
+EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_tim.o"
+EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_tim_ex.o"
+EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_dma.o"
+EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_rtc.o"
+EXTRA_OEMAKE_append = " STM32F1xx_HAL_OBJS+=stm32f1xx_hal_rtc_ex.o"
+
+EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS=startup_stm32f103vetx.o"
+EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=system_stm32f1xx.o"
+EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=stm32f1xx_hal_msp.o"
+EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS+=stm32f1xx_it.o"
 
 CFLAGS_append = " -I$(VISTRON_VDR_400)/Core/Inc"
 CFLAGS_append = " -I$(VISTRON_VDR_400)/."

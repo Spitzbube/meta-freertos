@@ -1,0 +1,54 @@
+diff --git a/Core/Src/stm32f1xx_it.c b/Core/Src/stm32f1xx_it.c
+index 119f265..8d42a01 100644
+--- a/vistron_vdr_400/Core/Src/stm32f1xx_it.c
++++ b/vistron_vdr_400/Core/Src/stm32f1xx_it.c
+@@ -140,6 +140,7 @@ void UsageFault_Handler(void)
+   }
+ }
+ 
++#if 0
+ /**
+   * @brief This function handles System service call via SWI instruction.
+   */
+@@ -147,11 +148,15 @@ void SVC_Handler(void)
+ {
+   /* USER CODE BEGIN SVCall_IRQn 0 */
+ 
++  void vPortSVCHandler( void ) __attribute__ (( naked ));
++  vPortSVCHandler();
++
+   /* USER CODE END SVCall_IRQn 0 */
+   /* USER CODE BEGIN SVCall_IRQn 1 */
+ 
+   /* USER CODE END SVCall_IRQn 1 */
+ }
++#endif
+ 
+ /**
+   * @brief This function handles Debug monitor.
+@@ -166,6 +171,7 @@ void DebugMon_Handler(void)
+   /* USER CODE END DebugMonitor_IRQn 1 */
+ }
+ 
++#if 0
+ /**
+   * @brief This function handles Pendable request for system service.
+   */
+@@ -173,12 +179,17 @@ void PendSV_Handler(void)
+ {
+   /* USER CODE BEGIN PendSV_IRQn 0 */
+ 
++  void xPortPendSVHandler( void ) __attribute__ (( naked ));
++  xPortPendSVHandler();
++
+   /* USER CODE END PendSV_IRQn 0 */
+   /* USER CODE BEGIN PendSV_IRQn 1 */
+ 
+   /* USER CODE END PendSV_IRQn 1 */
+ }
+ 
++#endif
++
+ /**
+   * @brief This function handles System tick timer.
+   */

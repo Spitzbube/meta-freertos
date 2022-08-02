@@ -1,7 +1,8 @@
 
-OBJS += startup_stm32f103vetx.o system_stm32f1xx.o main.o helper.o
+OBJS += main.o helper.o
 OBJS += $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
 OBJS += $(STM32F1xx_HAL_OBJS)
+OBJS += $(VISTRON_VDR_400_OBJS)
 
 all: image.bin
 
@@ -18,8 +19,14 @@ startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
 system_stm32f1xx.o: $(VISTRON_VDR_400)/Core/Src/system_stm32f1xx.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
+stm32f1xx_hal_msp.o: $(VISTRON_VDR_400)/Core/Src/stm32f1xx_hal_msp.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+stm32f1xx_it.o: $(VISTRON_VDR_400)/Core/Src/stm32f1xx_it.c
+	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
 main.o: $(VISTRON_VDR_400)/Core/Src/main.c
-	$(CC) $< $(CFLAGS) -D FREERTOS -c -o $@
+	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
 
 helper.o: helper.c
 	$(CC) $< $(CFLAGS) -c -o $@
@@ -51,5 +58,23 @@ stm32f1xx_hal_rcc_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rcc_ex.c
 stm32f1xx_hal_gpio.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_gpio.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
+stm32f1xx_hal_pwr.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_pwr.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_tim.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_tim.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_tim_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_tim_ex.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_dma.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_dma.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_rtc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rtc.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_rtc_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rtc_ex.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
 clean:
 	rm -f *.o image.bin image.elf
