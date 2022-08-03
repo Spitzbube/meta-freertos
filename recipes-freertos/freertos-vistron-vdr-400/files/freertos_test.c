@@ -43,10 +43,15 @@ void LED2_Task(void* p)
    ili9341_set_cursor(20, 50);
    ili9341_draw_format_string("Hello FreeRTOS");
 
+   //Pull up USB D+ to indicate the USB host our presence on the bus
+   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
+
+   int i = 0;
 	while (1)
 	{
 	    vTaskDelay(pdMS_TO_TICKS(500));
 		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
+		printf("i=%d\n", i++);
 	}
 }
 

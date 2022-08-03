@@ -1,10 +1,10 @@
 diff --git a/Core/Src/main.c b/Core/Src/main.c
-index b6d8ec5..14899eb 100644
+index eba6022..0bf4561 100644
 --- a/vistron_vdr_400/Core/Src/main.c
 +++ b/vistron_vdr_400/Core/Src/main.c
-@@ -26,6 +26,10 @@
- #include "../../User/func_8001ae8.h"
+@@ -28,6 +28,10 @@
  #include <stdlib.h>
+ #include <stdio.h>
  
 +#ifdef FREE_RTOS
 +#include "FreeRTOS.h"
@@ -13,7 +13,7 @@ index b6d8ec5..14899eb 100644
  /* USER CODE END Includes */
  
  /* Private typedef -----------------------------------------------------------*/
-@@ -83,6 +87,9 @@ extern int sub_800a9a8(void);
+@@ -85,6 +89,9 @@ extern int sub_800a9a8(void);
  /* 800c7e0 - todo */
  void sub_800c7e0(uint16_t a)
  {
@@ -23,7 +23,7 @@ index b6d8ec5..14899eb 100644
     TIM_HandleTypeDef htim;
  
     htim.Instance = TIM6;
-@@ -100,6 +107,7 @@ void sub_800c7e0(uint16_t a)
+@@ -102,6 +109,7 @@ void sub_800c7e0(uint16_t a)
     }
  
     HAL_TIM_Base_Stop_IT(&htim);
@@ -31,3 +31,21 @@ index b6d8ec5..14899eb 100644
  }
  
  #ifndef FREE_RTOS
+@@ -138,6 +146,8 @@ uint16_t sub_800c88c(uint8_t r7_4[], uint16_t r7_2)
+    return r7_e - 1;
+ }
+ 
++#endif //FREE_RTOS
++
+ int _write(int file, char *ptr, int len)
+ {
+    uint8_t rc = USBD_OK;
+@@ -151,8 +161,6 @@ int _write(int file, char *ptr, int len)
+    return len;
+ }
+ 
+-#endif //FREE_RTOS
+-
+ /* USER CODE END 0 */
+ 
+ /**

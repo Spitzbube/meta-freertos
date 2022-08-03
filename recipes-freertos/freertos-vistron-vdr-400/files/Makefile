@@ -43,6 +43,30 @@ ili9341.o: $(VISTRON_VDR_400)/User/ili9341.c
 font1.o: $(VISTRON_VDR_400)/User/font1.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
+usb_device.o: $(VISTRON_VDR_400)/USB_DEVICE/App/usb_device.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_cdc_if.o: $(VISTRON_VDR_400)/USB_DEVICE/App/usbd_cdc_if.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_desc.o: $(VISTRON_VDR_400)/USB_DEVICE/App/usbd_desc.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_conf.o: $(VISTRON_VDR_400)/USB_DEVICE/Target/usbd_conf.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_core.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_ctlreq.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_ioreq.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+usbd_cdc.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
 freertos_test.o: freertos_test.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
@@ -109,5 +133,14 @@ stm32f1xx_hal_sram.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_sram.c
 stm32f1xx_ll_fsmc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_ll_fsmc.c
 	$(CC) $< $(CFLAGS) -c -o $@
 	
+stm32f1xx_ll_usb.o: $(STM32F1xx_HAL_SRC)stm32f1xx_ll_usb.c
+	$(CC) $< $(CFLAGS) -c -o $@
+		
+stm32f1xx_hal_pcd.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_pcd.c
+	$(CC) $< $(CFLAGS) -c -o $@
+		
+stm32f1xx_hal_pcd_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_pcd_ex.c
+	$(CC) $< $(CFLAGS) -c -o $@
+		
 clean:
 	rm -f *.o image.bin image.elf
