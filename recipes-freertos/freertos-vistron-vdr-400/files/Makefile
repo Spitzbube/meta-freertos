@@ -10,7 +10,7 @@ image.bin: image.elf
 	$(OBJCOPY) -O binary $(word 1,$^) $@
 
 image.elf: $(OBJS)
-	$(LD) -nostartfiles $(LDFLAGS) $(OBJS) -lc -o $@
+	$(LD) -nostartfiles $(LDFLAGS) $(OBJS) -lc -lgcc -o $@
 	$(OBJDUMP) -hds $@ > $@.dump 
 
 startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
@@ -25,8 +25,23 @@ stm32f1xx_hal_msp.o: $(VISTRON_VDR_400)/Core/Src/stm32f1xx_hal_msp.c
 stm32f1xx_it.o: $(VISTRON_VDR_400)/Core/Src/stm32f1xx_it.c
 	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
 
+syscalls.o: $(VISTRON_VDR_400)/Core/Src/syscalls.c
+	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
+sysmem.o: $(VISTRON_VDR_400)/Core/Src/sysmem.c
+	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
 main.o: $(VISTRON_VDR_400)/Core/Src/main.c
 	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
+data.o: $(VISTRON_VDR_400)/User/data.c
+	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
+ili9341.o: $(VISTRON_VDR_400)/User/ili9341.c
+	$(CC) $< $(CFLAGS) -D FREE_RTOS -c -o $@
+
+font1.o: $(VISTRON_VDR_400)/User/font1.c
+	$(CC) $< $(CFLAGS) -c -o $@
 
 freertos_test.o: freertos_test.c
 	$(CC) $< $(CFLAGS) -c -o $@
@@ -77,6 +92,21 @@ stm32f1xx_hal_rtc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rtc.c
 	$(CC) $< $(CFLAGS) -c -o $@
 	
 stm32f1xx_hal_rtc_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rtc_ex.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_i2c.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_i2c.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_spi.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_spi.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_uart.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_uart.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_hal_sram.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_sram.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	
+stm32f1xx_ll_fsmc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_ll_fsmc.c
 	$(CC) $< $(CFLAGS) -c -o $@
 	
 clean:

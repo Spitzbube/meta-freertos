@@ -34,11 +34,19 @@ void LED2_Task(void* p)
     HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_6, GPIO_PIN_RESET);
 
+	ili9341_init();
+
+   ili9341_fill_screen(0xffff);
+   ili9341_draw_hor_line(0, 320, 48, 0);
+   ili9341_set_font(&Data_2000004c);
+   ili9341_set_text_color(0, 0xffff);
+   ili9341_set_cursor(20, 50);
+   ili9341_draw_format_string("Hello FreeRTOS");
+
 	while (1)
 	{
 	    vTaskDelay(pdMS_TO_TICKS(500));
-//	   sub_800c7e0(1000);
-//		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
+		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
 	}
 }
 

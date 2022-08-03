@@ -1,5 +1,5 @@
 diff --git a/Core/Src/stm32f1xx_it.c b/Core/Src/stm32f1xx_it.c
-index a1d2c70..832de06 100644
+index a1d2c70..c77b62e 100644
 --- a/vistron_vdr_400/Core/Src/stm32f1xx_it.c
 +++ b/vistron_vdr_400/Core/Src/stm32f1xx_it.c
 @@ -140,6 +140,7 @@ void UsageFault_Handler(void)
@@ -57,7 +57,7 @@ index a1d2c70..832de06 100644
  #ifndef FREE_RTOS
    wMainloopEvents |= 0x10;
 +#else
-+  HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
++//  HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_6);
  #endif
  
    /* USER CODE END RTC_IRQn 0 */
