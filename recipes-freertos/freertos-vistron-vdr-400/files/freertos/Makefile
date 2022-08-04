@@ -1,0 +1,20 @@
+
+clean:
+
+all: libfreertos.a
+
+libfreertos.a: $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
+	${AR} rcs ../$@ $^
+
+list.o: $(FREERTOS_SRC)list.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+tasks.o: $(FREERTOS_SRC)tasks.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+port.o: $(FREERTOS_PORT_SRC)port.c
+	$(CC) $< $(CFLAGS) -c -o $@
+
+heap_4.o: $(FREERTOS_MEMMANG_SRC)heap_4.c
+	$(CC) $< $(CFLAGS) -c -o $@
+	

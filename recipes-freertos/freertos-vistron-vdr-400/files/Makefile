@@ -1,7 +1,6 @@
 
 OBJS += freertos_test.o helper.o
 OBJS += $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
-OBJS += $(STM32F1xx_HAL_OBJS)
 OBJS += $(VISTRON_VDR_400_OBJS)
 
 all: image.bin
@@ -9,9 +8,12 @@ all: image.bin
 image.bin: image.elf
 	$(OBJCOPY) -O binary $(word 1,$^) $@
 
-image.elf: $(OBJS)
-	$(LD) -nostartfiles $(LDFLAGS) $(OBJS) -lc -lgcc -o $@
+image.elf: $(OBJS) libstm32cubef1.a
+	$(LD) -nostartfiles $(LDFLAGS) -lc -lgcc -o $@
 	$(OBJDUMP) -hds $@ > $@.dump 
+
+libstm32cubef1.a: $(STM32CUBEF1)
+	$(MAKE) -C $< 
 
 startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
 	$(AS) $< -o $@
@@ -55,18 +57,6 @@ usbd_desc.o: $(VISTRON_VDR_400)/USB_DEVICE/App/usbd_desc.c
 usbd_conf.o: $(VISTRON_VDR_400)/USB_DEVICE/Target/usbd_conf.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
-usbd_core.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-usbd_ctlreq.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-usbd_ioreq.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-usbd_cdc.o: $(VISTRON_VDR_400)/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
 freertos_test.o: freertos_test.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
@@ -85,62 +75,7 @@ port.o: $(FREERTOS_PORT_SRC)port.c
 heap_4.o: $(FREERTOS_MEMMANG_SRC)heap_4.c
 	$(CC) $< $(CFLAGS) -c -o $@
 	
-stm32f1xx_hal.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-stm32f1xx_hal_cortex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_cortex.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-stm32f1xx_hal_rcc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rcc.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-stm32f1xx_hal_rcc_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rcc_ex.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-stm32f1xx_hal_gpio.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_gpio.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-stm32f1xx_hal_pwr.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_pwr.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_tim.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_tim.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_tim_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_tim_ex.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_dma.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_dma.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_rtc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rtc.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_rtc_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_rtc_ex.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_i2c.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_i2c.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_spi.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_spi.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_uart.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_uart.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_hal_sram.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_sram.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_ll_fsmc.o: $(STM32F1xx_HAL_SRC)stm32f1xx_ll_fsmc.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
-stm32f1xx_ll_usb.o: $(STM32F1xx_HAL_SRC)stm32f1xx_ll_usb.c
-	$(CC) $< $(CFLAGS) -c -o $@
-		
-stm32f1xx_hal_pcd.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_pcd.c
-	$(CC) $< $(CFLAGS) -c -o $@
-		
-stm32f1xx_hal_pcd_ex.o: $(STM32F1xx_HAL_SRC)stm32f1xx_hal_pcd_ex.c
-	$(CC) $< $(CFLAGS) -c -o $@
-		
 clean:
-	rm -f *.o image.bin image.elf
+	rm -f *.a *.o image.bin image.elf
+
+	
