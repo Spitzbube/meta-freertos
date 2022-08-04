@@ -1,6 +1,4 @@
 
-clean:
-
 all: libstm32cubef1.a
 
 libstm32cubef1.a: $(STM32F1xx_HAL_OBJS) $(STM32_USB_DEVICE_LIB_OBJS)

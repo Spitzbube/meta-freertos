@@ -1,6 +1,5 @@
 
-OBJS += freertos_test.o helper.o
-OBJS += $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
+OBJS = freertos_test.o helper.o
 OBJS += $(VISTRON_VDR_400_OBJS)
 
 all: image.bin
@@ -8,12 +7,15 @@ all: image.bin
 image.bin: image.elf
 	$(OBJCOPY) -O binary $(word 1,$^) $@
 
-image.elf: $(OBJS) libstm32cubef1.a
-	$(LD) -nostartfiles $(LDFLAGS) -lc -lgcc -o $@
+image.elf: $(OBJS) libstm32cubef1.a libfreertos.a
+	$(LD) -nostartfiles $(LDFLAGS) $(OBJS) libstm32cubef1.a libfreertos.a -lc -lgcc -o $@
 	$(OBJDUMP) -hds $@ > $@.dump 
 
 libstm32cubef1.a: $(STM32CUBEF1)
-	$(MAKE) -C $< 
+	$(MAKE) -C $< -f Makefile.stm32cubef1 $(MAKECMDGOALS)
+
+libfreertos.a: $(FREERTOS_SRC)
+	$(MAKE) -C $< -f Makefile.freertos $(MAKECMDGOALS)
 
 startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
 	$(AS) $< -o $@
@@ -63,18 +65,6 @@ freertos_test.o: freertos_test.c
 helper.o: helper.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
-list.o: $(FREERTOS_SRC)list.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-tasks.o: $(FREERTOS_SRC)tasks.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-port.o: $(FREERTOS_PORT_SRC)port.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-heap_4.o: $(FREERTOS_MEMMANG_SRC)heap_4.c
-	$(CC) $< $(CFLAGS) -c -o $@
-	
 clean:
 	rm -f *.a *.o image.bin image.elf
 

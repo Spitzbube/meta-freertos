@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8f5b865d5179a4a0d9037aebbd00fc2e"
 SRC_URI_append = " \
     git://github.com/Spitzbube/vistron_vdr_400;name=vistron_vdr_400;destsuffix=vistron_vdr_400;branch=usb \
     file://LICENSE.txt \
+    file://stm32cubef1/Makefile.stm32cubef1 \
+    file://freertos/Makefile.freertos \
     file://Makefile \
     file://SystemCoreClock.patch \
     file://main.c.patch \
@@ -53,6 +55,6 @@ CFLAGS_append = " -I$(VISTRON_VDR_400)/Core/Inc"
 CFLAGS_append = " -I$(VISTRON_VDR_400)/USB_DEVICE/App"
 CFLAGS_append = " -I$(VISTRON_VDR_400)/USB_DEVICE/Target"
 CFLAGS_append = " -I$(VISTRON_VDR_400)/."
-CFLAGS_append = " -I."
+CFLAGS_append = " -I${WORKDIR}"
 
 LDFLAGS_append = " -T ${VISTRON_VDR_400}/STM32F103VETX_FLASH.ld"

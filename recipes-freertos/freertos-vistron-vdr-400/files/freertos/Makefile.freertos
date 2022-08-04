@@ -1,6 +1,4 @@
 
-clean:
-
 all: libfreertos.a
 
 libfreertos.a: $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
