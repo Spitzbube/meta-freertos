@@ -1,18 +1,15 @@
 
-all: libfreertos.a
+all: $(FREERTOS_LIB)
 
-libfreertos.a: $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
-	${AR} rcs ../$@ $^
+$(FREERTOS_LIB): $(FREERTOS_OBJS) $(FREERTOS_PORT_OBJS) $(FREERTOS_MEMMANG_OBJS)
+	$(AR) rcs ../$@ $^
 
-list.o: $(FREERTOS_SRC)list.c
+$(FREERTOS_OBJS):%.o:$(FREERTOS_SRC)%.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
-tasks.o: $(FREERTOS_SRC)tasks.c
+$(FREERTOS_PORT_OBJS):%.o:$(FREERTOS_PORT_SRC)%.c
 	$(CC) $< $(CFLAGS) -c -o $@
 
-port.o: $(FREERTOS_PORT_SRC)port.c
-	$(CC) $< $(CFLAGS) -c -o $@
-
-heap_4.o: $(FREERTOS_MEMMANG_SRC)heap_4.c
+$(FREERTOS_MEMMANG_OBJS):%.o:$(FREERTOS_MEMMANG_SRC)%.c
 	$(CC) $< $(CFLAGS) -c -o $@
 	

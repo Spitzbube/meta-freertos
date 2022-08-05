@@ -30,9 +30,6 @@ VISTRON_VDR_400 = "${WORKDIR}/vistron_vdr_400"
 
 EXTRA_OEMAKE_append = " VISTRON_VDR_400=${VISTRON_VDR_400}/"
 
-EXTRA_OEMAKE_append = " FREERTOS_OBJS=list.o"
-EXTRA_OEMAKE_append = " FREERTOS_OBJS+=tasks.o"
-EXTRA_OEMAKE_append = " FREERTOS_PORT_OBJS=port.o"
 EXTRA_OEMAKE_append = " FREERTOS_MEMMANG_OBJS=heap_4.o"
 
 EXTRA_OEMAKE_append = " VISTRON_VDR_400_OBJS=startup_stm32f103vetx.o"

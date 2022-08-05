@@ -2,19 +2,21 @@
 OBJS = freertos_test.o helper.o
 OBJS += $(VISTRON_VDR_400_OBJS)
 
+LIBS = $(STM32CUBEF1_LIB) $(FREERTOS_LIB)
+
 all: image.bin
 
 image.bin: image.elf
 	$(OBJCOPY) -O binary $(word 1,$^) $@
 
-image.elf: $(OBJS) libstm32cubef1.a libfreertos.a
-	$(LD) -nostartfiles $(LDFLAGS) $(OBJS) libstm32cubef1.a libfreertos.a -lc -lgcc -o $@
+image.elf: $(OBJS) $(LIBS)
+	$(LD) -nostartfiles $(LDFLAGS) $^ -lc -lgcc -o $@
 	$(OBJDUMP) -hds $@ > $@.dump 
 
-libstm32cubef1.a: $(STM32CUBEF1)
+$(STM32CUBEF1_LIB): $(STM32CUBEF1)
 	$(MAKE) -C $< -f Makefile.stm32cubef1 $(MAKECMDGOALS)
 
-libfreertos.a: $(FREERTOS_SRC)
+$(FREERTOS_LIB): $(FREERTOS_SRC)
 	$(MAKE) -C $< -f Makefile.freertos $(MAKECMDGOALS)
 
 startup_stm32f103vetx.o: $(VISTRON_VDR_400)/Core/Startup/startup_stm32f103vetx.s
