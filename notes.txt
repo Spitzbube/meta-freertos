@@ -1,0 +1,7 @@
+
+EMPLATECONF=../sources/meta-ohos/flavours/freertos . ./sources/poky/oe-init-build-env build-ohos-freertos
+
+MACHINE=stm32-p405 bitbake freertos-stm32-p405
+
+
+

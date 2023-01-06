@@ -25,7 +25,7 @@ SRC_URI = " \
 SRCREV_FORMAT ?= "freertos_bsp"
 
 # FreeRTOS License
-LIC_FILES_CHKSUM = "file://../freertos/LICENSE;md5=8f5b865d5179a4a0d9037aebbd00fc2e"
+#LIC_FILES_CHKSUM = "file://../freertos/LICENSE;md5=8f5b865d5179a4a0d9037aebbd00fc2e"
 
 SRCREV_freertos ?= "5bee12b2cd5ddbf2c6b3bf394ea41649999a1453"
 
